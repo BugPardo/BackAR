@@ -1,3 +1,5 @@
+package SourceJava;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import SourceJava.User;
+
 
 @WebServlet(
 		description = "Login Servlet", 
@@ -39,12 +44,12 @@ public class LoginConnect extends HttpServlet {
     	Map<String, User> DB = null;
     	if (this.getServletContext().getAttribute("DB") == null){ 
     		DB = new HashMap<String,User>();
-    		User user1 = new User("anakin", "deathStar2");
-    		user1.setFullName("Anakin Skywalker");
-    		User user2 = new User("kenobi", "starfighter");
-    		user2.setFullName("Obi Wan Knenobi");
-    		DB.put("anakin",user1);
-    		DB.put("kenobi", user2);
+    		User user1 = new User("1", "3");
+    		user1.setFullName("123");
+    		User user2 = new User("1", "2");
+    		user2.setFullName("123");
+    		DB.put("1",user1);
+    		DB.put("2", user2);
     		this.getServletContext().setAttribute("DB", DB);
 
     	} else {
@@ -56,7 +61,7 @@ public class LoginConnect extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if (request.getSession().getAttribute("user") != null){
-			request.getRequestDispatcher("/WEB-INF/views/session.jsp").forward(request, response);
+			request.getRequestDispatcher("/session.jsp").forward(request, response);
 			
 		} else {
 			doPost(request,response);
@@ -79,19 +84,19 @@ public class LoginConnect extends HttpServlet {
 				doSession(request,response);
 				request.getSession().setAttribute("user", user.getUsername());
 				Cookie fullName = new Cookie("fullName",user.getFullName());
-				request.getRequestDispatcher("/WEB-INF/views/session.jsp").forward(request, response);
+				request.getRequestDispatcher("/session.jsp").forward(request, response);
 				
 			} else{
 				
 				errors.add("Invalid username or password.");
 				request.setAttribute("errors", errors);
-				request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+				request.getRequestDispatcher("/login.jsp").forward(request, response);
 			}
 		} else {
     	
 			errors.add("You should login first");
-			
-			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+			request.setAttribute("errors", errors);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}
 	
