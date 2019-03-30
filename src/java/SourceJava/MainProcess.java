@@ -1,3 +1,11 @@
+package SourceJava;
+
+import java.awt.Component;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,6 +17,7 @@
  * @author arellajo
  */
 public class MainProcess extends javax.swing.JFrame {
+    private Component frame;
 
     /**
      * Creates new form NewJFrame
@@ -128,7 +137,17 @@ public class MainProcess extends javax.swing.JFrame {
     }//GEN-LAST:event_textuserActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        
+        DatabaseConnection con = new DatabaseConnection();
+        try {
+            con.initializeDatabase();
+        } catch (SQLException ex) {
+            Logger.getLogger(MainProcess.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainProcess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog(frame,
+                "Eggs are not supposed to be green." + "" +con.query("user1", "12345"));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
