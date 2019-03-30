@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import SourceJava.User;
 import SourceJava.DatabaseConnection;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,7 +81,7 @@ public class LoginConnect extends HttpServlet {
 //            out.println("<html><body><b>"+"asdasdnsdnsjndjhis"+ "</b></body></html>"); 
                  
 		DatabaseConnection datab = new DatabaseConnection();
-                request.setAttribute("InputUsername", "12312312312");
+                //request.setAttribute("InputUsername", "12312312312");
             try {
                 datab.initializeDatabase();
             } catch (SQLException ex) {
@@ -94,24 +95,26 @@ public class LoginConnect extends HttpServlet {
 			String password = request.getParameter("inputPassword");
                       
                         
-//                        if (datab.query(username, password) != false){
-////
-//                            errors.add("Invalid username or password.");
-//                            request.setAttribute("errors", errors);
-//                            request.getRequestDispatcher("/login.jsp").forward(request, response);
-//                        } else{
-////
-//                            doSession(request,response);
-//                            request.getSession().setAttribute("user","Testing");
-//                            Cookie fullName = new Cookie("fullName","Jelipedejesus");
-//                            request.getRequestDispatcher("/session.jsp").forward(request, response);
-////
-//                        }
+                        if (username == "men"){
+//
+                            errors.add("Invalid username or password.");
+                            request.setAttribute("errors", errors);
+                            request.getRequestDispatcher("/login.jsp").forward(request, response);
+                        } else{
+//
+                            doSession(request,response);
+                            request.getSession().setAttribute("user","Testing");
+                            Cookie fullName = new Cookie("fullName","Jelipedejesus");
+                            request.getRequestDispatcher("/session.jsp").forward(request, response);
+//
+                        }
+                        
 		} else {
-    	
+//    	     PrintWriter out = response.getWriter(); 
+//			out.println("");
 			errors.add("You should login first");
 			request.setAttribute("errors", errors);
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
+			request.getRequestDispatcher("/indexddts.html").forward(request, response);
 		}
 	}
 	

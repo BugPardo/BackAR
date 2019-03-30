@@ -28,16 +28,14 @@ public class DatabaseConnection {
         throws SQLException, ClassNotFoundException 
     { 
         String dbDriver = "com.mysql.cj.jdbc.Driver"; 
-        String dbURL = "jdbc:mysql://db4free.net:3306/dataservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; 
+        String dbURL = "jdbc:mysql://localhost:3306/dataservic?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; 
         // Database name to access 
        // String dbName = "dataservic"; 
         String dbUsername = "backroot"; 
         String dbPassword = "Aus@ew03ps4"; 
          
            Class.forName("com.mysql.cj.jdbc.Driver");
-                this.connection = DriverManager.getConnection(dbURL,
-                        dbUsername, 
-                        dbPassword);
+                this.connection = DriverManager.getConnection(dbURL,dbUsername,dbPassword);
                 this.statement = connection.createStatement();
         
     }
@@ -51,8 +49,7 @@ public class DatabaseConnection {
           ResultSet rs;
         try {
            // String sql = ("select * from dataservice.Maincontrol where Maincontrol.MainUser =? AND Maincontrol.MainPassword =?");
-            rs = this.statement.executeQuery("select * from dataservice.Maincontrol\n" +
-"where Maincontrol.MainUser ='"+user+"' AND Maincontrol.MainPassword ='"+password+"'");
+            rs = this.statement.executeQuery("select * from dataservic.users where users.Username ='"+user+"' AND users.UserPassword ='"+password+"'");
 
             
             if(rs.next())
