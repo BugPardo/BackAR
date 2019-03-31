@@ -146,8 +146,8 @@ public class MainProcess extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainProcess.class.getName()).log(Level.SEVERE, null, ex);
         }
-        JOptionPane.showMessageDialog(frame,
-                "Eggs are not supposed to be green." + "" +con.query("user1", "12345"));
+//        JOptionPane.showMessageDialog(frame,
+//                "Eggs are not supposed to be green." + "" +con.query("user1", "12345"));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

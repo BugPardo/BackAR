@@ -93,9 +93,10 @@ public class LoginConnect extends HttpServlet {
 		if (request.getParameter("inputUsername") != null && request.getParameter("inputPassword") != null ){
 			String username = request.getParameter("inputUsername");
 			String password = request.getParameter("inputPassword");
-                      
+                        Integer bash = 0;
+//                        datab.query(username, password);
                         
-                        if (username == "men"){
+                        if (bash !=0){
 //
                             errors.add("Invalid username or password.");
                             request.setAttribute("errors", errors);
@@ -114,7 +115,7 @@ public class LoginConnect extends HttpServlet {
 //			out.println("");
 			errors.add("You should login first");
 			request.setAttribute("errors", errors);
-			request.getRequestDispatcher("/indexddts.html").forward(request, response);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}
 	

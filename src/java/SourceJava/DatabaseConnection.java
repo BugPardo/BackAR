@@ -22,7 +22,7 @@ public class DatabaseConnection {
     private String database;
 	private Connection connection;
 	private Statement statement;
-	private Boolean checkUser; 
+	private int checkUser; 
 	
       public void initializeDatabase() 
         throws SQLException, ClassNotFoundException 
@@ -43,36 +43,43 @@ public class DatabaseConnection {
    public Connection getConnection() {
 		return connection;
 	}
-      
-      public Boolean query(String user, String password) 
+   
+   
+      public void query(String user, String password) 
       {
-          ResultSet rs;
+         // ResultSet rs;
         try {
            // String sql = ("select * from dataservice.Maincontrol where Maincontrol.MainUser =? AND Maincontrol.MainPassword =?");
-            rs = this.statement.executeQuery("select * from dataservic.users where users.Username ='"+user+"' AND users.UserPassword ='"+password+"'");
+           // rs = this.statement.executeQuery("select * from dataservic.users where users.Username ='"+user+"' AND users.UserPassword ='"+password+"'");  where users.Username =? AND users.UserPassword =?
 
+            
+            PreparedStatement pst = connection.prepareStatement("select * from users ");
+        pst.setString(1, user);
+        pst.setString(2, password);
+        ResultSet rs = pst.executeQuery();  
+            
             
             if(rs.next())
             {
                     int id = rs.getInt("idMaincontrol");
                     String firstName = rs.getString("MainUser");
                     String lastName = rs.getString("MainPassword");
-            checkUser = true;
+            checkUser = 1;
 
                     System.out.format("%s, %s, %s\n", id, firstName, lastName);
             }
             else
             {
-            checkUser = false;  
+            checkUser = 2;
             }
             
-      this.statement.close();
+     rs.close();
 //		}
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
           
-          return checkUser;
+         
       }
       
 }
