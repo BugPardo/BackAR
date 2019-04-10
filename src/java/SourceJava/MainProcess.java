@@ -139,15 +139,15 @@ public class MainProcess extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
         DatabaseConnection con = new DatabaseConnection();
-        try {
-            con.initializeDatabase();
-        } catch (SQLException ex) {
-            Logger.getLogger(MainProcess.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainProcess.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//        JOptionPane.showMessageDialog(frame,
-//                "Eggs are not supposed to be green." + "" +con.query("user1", "12345"));
+       
+//        try {
+//            JOptionPane.showMessageDialog(frame,
+//                    "Eggs are not supposed to be green." + "" +con.query("user1", "12345"));
+//        } catch (SQLException ex) {
+//            Logger.getLogger(MainProcess.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(MainProcess.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

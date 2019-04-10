@@ -5,81 +5,67 @@
  */
 package SourceJava;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
  * @author arellajo
  */
 public class DatabaseConnection {
-    private String database;
-	private Connection connection;
-	private Statement statement;
-	private int checkUser; 
-	
-      public void initializeDatabase() 
-        throws SQLException, ClassNotFoundException 
-    { 
-        String dbDriver = "com.mysql.cj.jdbc.Driver"; 
-        String dbURL = "jdbc:mysql://localhost:3306/dataservic?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; 
-        // Database name to access 
-       // String dbName = "dataservic"; 
-        String dbUsername = "backroot"; 
-        String dbPassword = "Aus@ew03ps4"; 
-         
-           Class.forName("com.mysql.cj.jdbc.Driver");
-                this.connection = DriverManager.getConnection(dbURL,dbUsername,dbPassword);
-                this.statement = connection.createStatement();
-        
-    }
+ 
+        String Driver = "com.mysql.cj.jdbc.Driver"; 
+        String URL = "jdbc:mysql://db4free.net:3306/backdata?autoReconnect=true&useSSL=false"; 
+        String Username = "blackroot"; 
+        String Password = "rAsuea1d@"; 
+       public Connection connection = null;
     
-   public Connection getConnection() {
-		return connection;
-	}
-   
-   
-      public void query(String user, String password) 
-      {
-         // ResultSet rs;
-        try {
-           // String sql = ("select * from dataservice.Maincontrol where Maincontrol.MainUser =? AND Maincontrol.MainPassword =?");
-           // rs = this.statement.executeQuery("select * from dataservic.users where users.Username ='"+user+"' AND users.UserPassword ='"+password+"'");  where users.Username =? AND users.UserPassword =?
+    
+      public void connectdatabase() throws ClassNotFoundException, SQLException     { 
+        Class.forName(Driver);
+        connection = DriverManager.getConnection(URL,Username,Password);
+    }
+  
 
-            
-            PreparedStatement pst = connection.prepareStatement("select * from users ");
-        pst.setString(1, user);
-        pst.setString(2, password);
-        ResultSet rs = pst.executeQuery();  
-            
-            
-            if(rs.next())
-            {
-                    int id = rs.getInt("idMaincontrol");
-                    String firstName = rs.getString("MainUser");
-                    String lastName = rs.getString("MainPassword");
-            checkUser = 1;
+        public String ConnectUser(User user){  
+        String result = "";
 
-                    System.out.format("%s, %s, %s\n", id, firstName, lastName);
-            }
-            else
+     
+        try{  
+         connectdatabase();
+        System.out.println("Entra a esta mamada");
+        PreparedStatement ps= connection.prepareStatement("select * from usercontrol where namecontrol=? and passwordcontrol=?");  
+        ps.setString(1,user.getUsername());  
+        ps.setString(2, user.getPassword());  
+        System.out.println("Login " + user.getUsername() +  " " + user.getPassword());        
+        ResultSet rs=ps.executeQuery();
+         if(rs.next())
             {
-            checkUser = 2;
+                    int id = rs.getInt("idcontrol");
+                    String name = rs.getString("namecontrol");
+                    String password = rs.getString("passwordcontrol");
+                    result = rs.getString("fullnamecontrol");
+                    System.out.format("%s, %s, %s, %s\n", id, name, password,result);
+                   
             }
-            
-     rs.close();
-//		}
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-          
-         
-      }
+//        result=rs.next();  
+        System.out.println(result);
+        }catch(Exception e){
+        System.out.println(e);
+        }  
+        return result;  
+  //string
+  
+  
+  
+}  
       
+      
+
+
 }
