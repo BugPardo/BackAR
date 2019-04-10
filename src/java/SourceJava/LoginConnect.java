@@ -31,9 +31,8 @@ import java.util.logging.Logger;
 		})
 
 public class LoginConnect extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	
-  
+     User user = new User();
+     DatabaseConnection dataconnect = new DatabaseConnection();
     public LoginConnect() {
         super();
      
@@ -42,22 +41,6 @@ public class LoginConnect extends HttpServlet {
     @SuppressWarnings("unchecked")
 	public void init(){
     
-        
-        
-    	Map<String, User> DB = null;
-    	if (this.getServletContext().getAttribute("DB") == null){ 
-    		DB = new HashMap<String,User>();
-    		User user1 = new User("1", "3");
-    		user1.setFullName("123");
-    		User user2 = new User("1", "2");
-    		user2.setFullName("123");
-    		DB.put("1",user1);
-    		DB.put("2", user2);
-    		this.getServletContext().setAttribute("DB", DB);
-
-    	} else {
-    		DB = (HashMap<String, User>) this.getServletContext().getAttribute("DB");
-    	}
     	
     }
 	
@@ -73,72 +56,31 @@ public class LoginConnect extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<String> errors = new ArrayList<String>();
-	
-               
-//            // to display the succesful result 
-//            PrintWriter out = response.getWriter(); 
-//            out.println("<html><body><b>"+"asdasdnsdnsjndjhis"+ "</b></body></html>"); 
-                 
-		DatabaseConnection datab = new DatabaseConnection();
-                //request.setAttribute("InputUsername", "12312312312");
-            try {
-                datab.initializeDatabase();
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginConnect.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(LoginConnect.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                 
+         
+		DatabaseConnection datab = new DatabaseConnection();                 
 		if (request.getParameter("inputUsername") != null && request.getParameter("inputPassword") != null ){
-			String username = request.getParameter("inputUsername");
-			String password = request.getParameter("inputPassword");
-                        Integer bash = 0;
-//                        datab.query(username, password);
                         
-                        if (bash !=0){
-//
-                            errors.add("Invalid username or password.");
-                            request.setAttribute("errors", errors);
+                        String username = request.getParameter("inputUsername");
+                        String password = request.getParameter("inputPassword");
+                        user.setUsername(username);
+                        user.setPassword(password);
+                       
+                        String result =  dataconnect.ConnectUser(user);
+                        System.out.println(result);
+                        if (result == ""){
+                            request.getSession().setAttribute("erroruser", "User or password incorrect");
                             request.getRequestDispatcher("/login.jsp").forward(request, response);
                         } else{
-//
                             doSession(request,response);
-                            request.getSession().setAttribute("user","Testing");
-                            Cookie fullName = new Cookie("fullName","Jelipedejesus");
+                            request.getSession().setAttribute("user", user.getUsername());
+                            request.getSession().setAttribute("sessionFullname", result);
+                            Cookie fullName = new Cookie("fullName",result);
                             request.getRequestDispatcher("/session.jsp").forward(request, response);
-//
-                        }
-                        
+                        } 
 		} else {
-//    	     PrintWriter out = response.getWriter(); 
-//			out.println("");
-			errors.add("You should login first");
-			request.setAttribute("errors", errors);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}
-	
-	private User login(String username, String password){
-	
-		if (username == null || password == null){
-            return null;
-        }
-		Map<String,User> DB = null;
-		DB = (HashMap<String, User>) this.getServletContext().getAttribute("DB");
-		User user = DB.get(username);
-         
-        if (user == null){
-            return null;
-        }
-         
-        if (!user.getPassword().equals(password.trim())){
-            return null;
-        }
-        return user;
-         
-	}
-	
 	private void doSession(HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException {
 		
@@ -159,5 +101,7 @@ public class LoginConnect extends HttpServlet {
 		session.setAttribute("maxInactiveInterval", maxInactiveInterval);
 	
 	}
+
+    
 }
 
