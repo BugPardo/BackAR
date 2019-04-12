@@ -55,7 +55,7 @@ public class MainDatalogin extends HttpServlet {
         DatabaseConnection datab = new DatabaseConnection();
          InputStream inputStream = null; 
        final  Part filePart = request.getPart("zip");
-       final String fileName = filePart.getSubmittedFileName();
+      // final String fileName = filePart.getSubmittedFileName();
         final PrintWriter writer = response.getWriter();
        
          if (filePart != null) {
