@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 
 @WebServlet(
 		description = "Login Servlet", 
@@ -46,7 +47,7 @@ public class LoginConnect extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		if (request.getSession().getAttribute("user") != null){
+		if (request.getSession().getAttribute("sessionFullname") != null){
 			request.getRequestDispatcher("/session.jsp").forward(request, response);
 			
 		} else {
@@ -57,7 +58,8 @@ public class LoginConnect extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
          
-		DatabaseConnection datab = new DatabaseConnection();                 
+		DatabaseConnection datab = new DatabaseConnection(); 
+                
 		if (request.getParameter("inputUsername") != null && request.getParameter("inputPassword") != null ){
                         
                         String username = request.getParameter("inputUsername");
@@ -74,8 +76,19 @@ public class LoginConnect extends HttpServlet {
                             doSession(request,response);
                             request.getSession().setAttribute("user", user.getUsername());
                             request.getSession().setAttribute("sessionFullname", result);
-                            Cookie fullName = new Cookie("fullName",result);
-                            request.getRequestDispatcher("/session.jsp").forward(request, response);
+                            
+                             ArrayList listCatagory = datab.combobox();
+                             for (Object number : listCatagory) {
+         System.out.println("Number = " + number);
+      }  
+                             request.setAttribute("databa", listCatagory);
+                             System.out.println(listCatagory);
+                           RequestDispatcher dispatcher = request.getRequestDispatcher("/session.jsp");
+                        dispatcher.forward(request, response);
+ 
+                            
+                            //Cookie fullName = new Cookie("fullName",result);
+                           // request.getRequestDispatcher("/session.jsp").forward(request, response);
                         } 
 		} else {
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
