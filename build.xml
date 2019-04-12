@@ -5,9 +5,12 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="BACKAR">
     <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../eclipse/jee-2019-03/eclipse/"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
+    <path id="Web App Libraries.libraryclasspath"/>
+    <path id="EAR Libraries.libraryclasspath"/>
     <path id="BACKAR.classpath">
         <pathelement location="build/web/WEB-INF/classes"/>
         <pathelement location="build/web/WEB-INF/lib/mysql-connector-java-8.0.15.jar"/>
@@ -16,6 +19,10 @@
         <pathelement location="src/lib/mysql-connector-java-8.0.15.jar"/>
         <pathelement location="src/lib/org-netbeans-modules-java-j2seproject-copylibstask.jar"/>
         <pathelement location="src/lib/tools.jar"/>
+        <path refid="Web App Libraries.libraryclasspath"/>
+        <path refid="EAR Libraries.libraryclasspath"/>
+        <pathelement location="src/lib/javax.servlet-api-3.0.1.jar"/>
+        <pathelement location="src/lib/servlet3.1-jsp2.3-api.jar"/>
     </path>
     <target name="init">
         <mkdir dir="build/web/WEB-INF/classes"/>
